@@ -1,8 +1,15 @@
 type person_t ={
-  namae:string;
-  height:int;
-  weight:int;
-  birthday:int * int;
+  name:string;
+  height:float;
+  weight:float;
+  tsuki:int;
+  hi:int;
   ketsueki:string;
+}
+
+let person1 = {
+  name="浅井";
+  height=1.72;
+  
 }
 
