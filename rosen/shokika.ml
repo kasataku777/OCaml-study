@@ -1,14 +1,13 @@
 #use "eki_t.ml"
-#use "eki_t.ml"
+
 
 
 (* 目的:eki_tのlstと起点を受け取ったら基点のみ変化させるeki_tのリストを返す *)
 (* shokika : eki_t list -> string -> eli_t list *)
-let rec shokika lst kiten = match lst with
-[]->[]
-|({namae=k;saitan_kyori=s;temae_list=t} as first) :: rest->
-if k=kiten then {namae=k;saitan_kyori=0.;temae_list=[k]}:: shokika rest kiten
-else first :: shokika rest kiten
+let  shokika lst kiten = 
+List.map (fun eki -> match eki with
+{namae=k;saitan_kyori=s;temae_list=t} ->
+if k=kiten then {namae=k;saitan_kyori=0.;temae_list=[k]} else eki) lst
 
 
 
