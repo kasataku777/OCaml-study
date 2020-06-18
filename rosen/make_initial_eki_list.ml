@@ -1,4 +1,4 @@
-#use "ekimei_t.ml"
+(* #use "ekimei_t.ml" *)
 #use "eki_t.ml"
 
 let ekimei_list = [ 

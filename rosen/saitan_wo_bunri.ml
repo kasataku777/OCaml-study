@@ -1,4 +1,4 @@
-#use "eki_t.ml"
+(* #use "eki_t.ml" *)
 (* 目的 :eki_tのリストを受け取ったら，最短距離最小の駅と最短距離最小の駅以外からなるリストを返す*)
 (* saitan_wo_bunri : eki_t list -> eki_t * eki_t list *)
 

@@ -1,4 +1,4 @@
-#use "ekimei_t.ml"
+(* #use "ekimei_t.ml" *)
 #use "global_ekimei_list.ml"
 (* 目的：ローマ字の駅名と駅名リストを受け取ったらその駅の漢字表記を返す *)
 (* romaji_to_kanji: string -> ekimei_t list -> string *)
