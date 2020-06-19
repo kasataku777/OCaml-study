@@ -1,8 +1,34 @@
 #use "seiretsu.ml"
 #use "romaji_to_kanji.ml"
 #use "make_initial_eki_list.ml"
-#use "dijkstra_main.ml"
+#use "get_ekikan_kyori.ml"
+#use "saitan_wo_bunri.ml"
 
+
+(* 直前に確定した駅pと未確定の駅のリストvを受け取ったら必要な更新処理を行った後の未確定の駅のリストを返す *)
+(* koushin: eki_t -> eki_t list ->ekikan_tree_t  -> eki_t list *)
+let koushin p v ekikan_tree=
+(* 目的：直前に確定した駅p(eki_t)と未確定の駅qを受け取ったらpとqが直接つながっているかどうかを調べて，
+繋がっていたらqの最短距離と手前リストを必要に応じて更新し，返す関数 *)
+(* koushin1 : eki_t ->eki_t-> eki_t *)
+match p with
+{namae=np;saitan_kyori=sp;temae_list=tp}->
+List.map (fun  q -> 
+match q with {namae=nq;saitan_kyori=sq;temae_list=tq}->
+let kyori = get_ekikan_kyori np nq ekikan_tree in
+if kyori = infinity then q
+else if kyori +. sp >= sq then q
+else {namae=nq;saitan_kyori=kyori+.sp;temae_list=nq::tp} ) v
+
+(* 目的:eki_t listの駅のリスト（未確定）とekikan_t list型の駅間のリストを受け取ったら
+ダイクストラのアルゴリズムで各駅について最短距離と最短経路が正しく入ったリストをかえす *)
+(* dijkstra_main : eki_t list -> ekikan_tree_t -> eki_t list *)
+let rec dijkstra_main eki_lst ekikan_tree = match eki_lst with
+[]->[]
+|first ::rest ->
+let (saitan,nokori)=saitan_wo_bunri(first::rest) in
+let eki_list2=koushin saitan nokori ekikan_tree  in
+saitan::dijkstra_main eki_list2 ekikan_tree
 
 
 (* 目的:受け取ったeki_listからshuten のレコード探す *)
@@ -18,7 +44,8 @@ let seiretsu_lst = seiretsu global_ekimei_list in
 let kiten=romaji_to_kanji romaji_siten seiretsu_lst in
 let syuten=romaji_to_kanji romaji_syuten seiretsu_lst in
 let eki_t_lst = make_initial_eki_list seiretsu_lst kiten in
-let dijk_list = dijkstra_main eki_t_lst global_ekikan_list in
+let global_ekikan_tree = inserts_ekikan Empty global_ekikan_list in
+let dijk_list = dijkstra_main eki_t_lst global_ekikan_tree in
 find syuten dijk_list
 
 (* テスト *) 
