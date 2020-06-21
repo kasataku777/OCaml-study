@@ -15,10 +15,11 @@ match p with
 {namae=np;saitan_kyori=sp;temae_list=tp}->
 List.map (fun  q -> 
 match q with {namae=nq;saitan_kyori=sq;temae_list=tq}->
+try
 let kyori = get_ekikan_kyori np nq ekikan_tree in
-if kyori = infinity then q
-else if kyori +. sp >= sq then q
-else {namae=nq;saitan_kyori=kyori+.sp;temae_list=nq::tp} ) v
+if kyori +. sp >= sq then q
+else {namae=nq;saitan_kyori=kyori+.sp;temae_list=nq::tp}
+with Not_found->q ) v
 
 (* 目的:eki_t listの駅のリスト（未確定）とekikan_t list型の駅間のリストを受け取ったら
 ダイクストラのアルゴリズムで各駅について最短距離と最短経路が正しく入ったリストをかえす *)

@@ -19,17 +19,17 @@ else get_ekikan_kyori ekimei1 ekimei2 rest
 (* 目的：2津の駅の間の距離を求める *)
 (* get_ekikan_kyori2 :  string -> string ->ekikan_tree_t->float*)
 let rec get_ekikan_kyori eki1 eki2 tree = match tree with
-Empty -> infinity
+Empty -> raise Not_found
 |Node (left,k,lst,right)->
 if eki1<k then get_ekikan_kyori eki1 eki2 left
 else if eki1>k then get_ekikan_kyori eki1 eki2 right
-else assoc eki2 lst
+else List.assoc eki2 lst
 
 (* テスト *) 
 (* let global_ekikan_tree = inserts_ekikan Empty global_ekikan_list 
-let test1 = get_ekikan_kyori2 "茗荷谷" "新大塚" global_ekikan_tree = 1.2 
-let test2 = get_ekikan_kyori2 "茗荷谷" "池袋" global_ekikan_tree = infinity 
-let test3 = get_ekikan_kyori2 "東京" "大手町" global_ekikan_tree = 0.6  *)
+let test1 = get_ekikan_kyori "茗荷谷" "新大塚" global_ekikan_tree = 1.2 
+let test2 = get_ekikan_kyori "茗荷谷" "池袋" global_ekikan_tree = infinity 
+let test3 = get_ekikan_kyori "東京" "大手町" global_ekikan_tree = 0.6  *)
 
 (* test
 let test1 = get_ekikan_kyori "茗荷谷" "新大塚" global_ekikan_list =1.2
